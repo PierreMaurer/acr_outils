@@ -1,11 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button } from 'react-native';
+import {Button, StyleSheet, View} from 'react-native';
 import { Audio } from 'expo-av';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {storage} from '../services/storage';
 
 const INTERVAL_TIME_ADULT = 1000;
 const INTERVAL_TIME_CHILD = 5000;
 
-const Metronome = () => {
+const Metronome = (params) => {
+    let type = params.params;
+    const [metronome, setMetronome] = useState(null);
+    useEffect(() => {
+        const fetchMetronome = async () => {
+            let temp = await storage.getValue((type === 1 ? 'adult_metronome' : 'pediatric_metronome'));
+            setMetronome(temp)
+        };
+        fetchMetronome();
+    }, [type]);
     const [sound, setSound] = useState();
     const [isPlaying, setIsPlaying] = useState(false);
     const intervalId = useRef();
@@ -21,33 +32,20 @@ const Metronome = () => {
 
     const playSound = async (type) => {
         setSoundType(type);
-        if (!isPlaying) {
-            await startSound(type === 1 ? INTERVAL_TIME_ADULT : INTERVAL_TIME_CHILD);
-        } else {
-            stopSound();
-            await startSound(type === 1 ? INTERVAL_TIME_ADULT : INTERVAL_TIME_CHILD);
-        }
+        await startSound();
     };
 
-    const startSound = async (intervalTime) => {
+    const startSound = async () => {
         console.log('Loading Sound');
-        const { sound: sound1 } = await Audio.Sound.createAsync(require('./../../assets/metronome.mp3'));
-        const { sound: sound2 } = await Audio.Sound.createAsync(require('./../../assets/metronome.mp3'));
+        const {sound: sound1} = await Audio.Sound.createAsync(require('./../../assets/metronome.mp3'));
+        const {sound: sound2} = await Audio.Sound.createAsync(require('./../../assets/metronome.mp3'));
         setSound(sound1);
-
         console.log('Playing Sound   Type', soundType);
-        // Répéter le son toutes les 600 millisecondes
         let currentSound = 1;
         intervalId.current = setInterval(async () => {
-            if (currentSound === 1) {
-                await sound1.playFromPositionAsync(0);
-                currentSound = 2;
-            } else {
-                await sound2.playFromPositionAsync(0);
-                currentSound = 1;
-            }
+            await sound1.replayAsync();
             console.log(intervalId.current, '-', soundType)
-        }, 600);
+        }, 571);
         setIsPlaying(true);
     };
 
@@ -60,20 +58,23 @@ const Metronome = () => {
 
     return (
         <>
+            <View style={styles.button}>
             <Button
-                title={(isPlaying && soundType === 1) ? "Stop" : "Adulte"}
+                title={(isPlaying && soundType === 1) ? "Stop" : "Démarrer"}
                 onPress={() => isPlaying && soundType === 1 ? stopSound() : playSound(1)}
                 color="#841584"
                 accessibilityLabel="Métronome rythme adulte"
             />
-            <Button
-                title={(isPlaying && soundType === 2) ? "Stop" : "Enfant"}
-                onPress={() => isPlaying && soundType === 2 ? stopSound() : playSound(2)}
-                color="#841584"
-                accessibilityLabel="Métronome rythme enfant"
-            />
+            </View>
         </>
     );
 };
+
+const styles = StyleSheet.create({
+    button: {
+        paddingTop: 10,
+        paddingBottom: 20,
+    },
+});
 
 export default Metronome;

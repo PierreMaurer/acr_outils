@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {Button, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {AntDesign} from "@expo/vector-icons";
-
+import {IntubationContext} from "../context/intubationContext";
 const CatheBtn = () => {
-    const [intubTimes, setIntubTimes] = useState('Non intubé');
+    const {intubTimes, setIntubTimes} = useContext(IntubationContext);
     function handleIntubClick() {
         const now = new Date();
         setIntubTimes(now.toLocaleTimeString());
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        paddingTop: 10,
         paddingBottom: 20,
     },
     button_text: {
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     adrenaline: {
         flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        paddingTop: 10,
         paddingBottom: 20,
     },
 });

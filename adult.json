@@ -1,0 +1,14 @@
+{
+  "adult": {
+    "adre_time": 0.1,
+    "adre_ml": 0.5,
+    "metronome": 571,
+    "amiodarone": 3
+  },
+    "pediatric": {
+      "adre_time": 4,
+      "adre_ml": 0.5,
+      "metronome": 462,
+      "amiodarone": 3
+    }
+}

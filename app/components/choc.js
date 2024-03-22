@@ -1,18 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {Button, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {AntDesign} from "@expo/vector-icons";
+import React, { useContext } from 'react';
+import {Button, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import { ChocContext } from '../context/chocContext'; // Assurez-vous que le chemin d'importation est correct
 
 const ChocBtn = () => {
-    const [choc, setChoc] = useState(0);
-    function handleChocClick() {
-        setChoc(choc + 1);
-    }
+    const { choc, setChoc } = useContext(ChocContext);
     return (
         <View style={styles.analyse}>
             <Text style={styles.button_text}>Chocs : {choc}</Text>
-            <TouchableOpacity onPress={() => {handleChocClick()}}>
-                <AntDesign name="pluscircle" size={24} color="black" />
-            </TouchableOpacity>
         </View>
     );
 }
@@ -22,7 +16,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        paddingTop: 10,
         paddingBottom: 20,
     },
     button_text: {

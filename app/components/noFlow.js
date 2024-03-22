@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Button, StyleSheet, Text, View, Modal, TextInput } from 'react-native';
+import { NoFlowContext } from '../context/NoFlowContext';
+import {formatTime} from "../services/times";
 
 const noFlow = () => {
-    const [seconds, setSeconds] = useState(0);
+    const {noFlow, setNoFlow} = useContext(NoFlowContext);
     const [isActive, setIsActive] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [inputMinutes, setInputMinutes] = useState('');
 
-    const formatTime = (time) => {
-        const hours = Math.floor(time / 3600);
-        const minutes = Math.floor((time - hours * 3600) / 60);
-        return `${hours} heure(s) ${minutes} minute(s)`;
-    };
 
     const addMinutes = (minutes) => {
-        setSeconds((seconds) => seconds + minutes * 60);
+        setNoFlow((noFlow) => noFlow + minutes * 60);
     };
 
     const handleAddMinutes = () => {
@@ -25,7 +22,7 @@ const noFlow = () => {
 
     return (
         <View style={styles.analyse}>
-            <Text style={styles.button_text}>NoFlow : {formatTime(seconds)}</Text>
+            <Text style={styles.button_text}>NoFlow : {formatTime.getTime(noFlow)}</Text>
             <Button title="Ajouter du noFlow" onPress={() => setModalVisible(true)} />
             <Modal
                 animationType="slide"
@@ -58,7 +55,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        paddingTop: 10,
         paddingBottom: 20,
     },
     button_text: {

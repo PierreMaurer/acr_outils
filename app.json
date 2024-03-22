@@ -20,7 +20,8 @@
           "audio"
         ]
       },
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.maurerdeveloppement.acraide"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,6 +31,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

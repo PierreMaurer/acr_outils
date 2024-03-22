@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Button, StyleSheet, Text, View, Modal, TextInput } from 'react-native';
+import {LowFlowContext} from "../context/lowFlowContext";
+import {formatTime} from "../services/times";
 
 const LowFlow = () => {
-    const [seconds, setSeconds] = useState(0);
+    const {lowFlow, setlowFlow}= useContext(LowFlowContext);
     const [isActive, setIsActive] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [inputMinutes, setInputMinutes] = useState('');
@@ -11,19 +13,13 @@ const LowFlow = () => {
         let interval = null;
         clearInterval(interval);
             interval = setInterval(() => {
-                setSeconds((seconds) => seconds + 1);
+                setlowFlow(lowFlow + 1);
             }, 1000);
         return () => clearInterval(interval);
-    }, [isActive, seconds]);
-
-    const formatTime = (time) => {
-        const hours = Math.floor(time / 3600);
-        const minutes = Math.floor((time - hours * 3600) / 60);
-        return `${hours} heure(s) ${minutes} minute(s)`;
-    };
+    }, [isActive, lowFlow]);
 
     const addMinutes = (minutes) => {
-        setSeconds((seconds) => seconds + minutes * 60);
+        setlowFlow((lowFlow) => lowFlow + minutes * 60);
     };
 
     const handleAddMinutes = () => {
@@ -34,7 +30,7 @@ const LowFlow = () => {
 
     return (
         <View style={styles.analyse}>
-            <Text style={styles.button_text}>LowFlow : {formatTime(seconds)}</Text>
+            <Text style={styles.button_text}>LowFlow : {formatTime.getTime(lowFlow)}</Text>
             <Button title="Ajouter du Lowflow" onPress={() => setModalVisible(true)} />
             <Modal
                 animationType="slide"
@@ -67,7 +63,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        paddingTop: 10,
         paddingBottom: 20,
     },
     button_text: {
