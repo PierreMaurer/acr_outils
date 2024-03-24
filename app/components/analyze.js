@@ -20,7 +20,7 @@ const AnalyseBtn = () => {
         <View style={styles.analyse}>
             <Text style={styles.button_text}>Analyses : {analyze}</Text>
             <TouchableOpacity onPress={handleAnalyseClick}>
-                <AntDesign name="pluscircle" size={24} color="black" />
+                <AntDesign name="pluscircle" size={42} color="black" />
             </TouchableOpacity>
             <Modal
                 animationType="slide"

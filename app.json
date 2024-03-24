@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "acr_aide",
-    "slug": "acr_aide",
+    "name": "HeartHelp",
+    "slug": "HeartHelp",
+    "privacy": "public",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/hearticon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -15,13 +16,14 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "fr.maurer-developpement.hearthelp",
+      "buildNumber": "1.0.0",
       "infoPlist": {
         "UIBackgroundModes": [
           "audio"
         ]
       },
-      "supportsTablet": true,
-      "bundleIdentifier": "com.maurerdeveloppement.acraide"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
@@ -34,6 +36,11 @@
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "1ab2c600-d3fc-4892-8d0e-e46d75f475e9"
+      }
+    }
   }
 }

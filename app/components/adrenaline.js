@@ -20,7 +20,7 @@ const AdrenalineBtn = (params) => {
     async function handleAdreClick() {
         const now = new Date();
         setAdreTimes(prevAdreTimes => [...prevAdreTimes, now]);
-
+        console.log(adrenalineTimer)
         setTimeout(() => {
             alarm.sound.playAsync();
             Alert.alert(adrenalineTimer + " minutes se sont écoulées depuis la dernière injection d\'adrénaline.", 'Avez-vous à nouveau injecter ?', [
@@ -35,7 +35,7 @@ const AdrenalineBtn = (params) => {
         <View style={styles.adrenaline}>
             <Text style={styles.button_text}>Adrénaline : {adreTimes.length}</Text>
             <TouchableOpacity onPress={handleAdreClick}>
-                <AntDesign name="pluscircle" size={24} color="black" />
+                <AntDesign name="pluscircle" size={42} color="black" />
             </TouchableOpacity>
             <ScrollView style={{ maxHeight: 30 }}>
                 {adreTimes.slice().reverse().map((time, index) => (

@@ -14,7 +14,7 @@ const CatheBtn = () => {
             <Text style={styles.button_text}>Heure d'intubation : {intubTimes}</Text>
             {intubTimes === "Non intubé" && (
                 <TouchableOpacity style={styles.list} onPress={handleIntubClick}>
-                    <AntDesign name="pluscircle" size={24} color="black" />
+                    <AntDesign name="pluscircle" size={42} color="black" />
                 </TouchableOpacity>
             )}
         </View>
