@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "HeartHelp",
-    "slug": "HeartHelp",
+    "slug": "acr_aide",
     "privacy": "public",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,7 +17,7 @@
     ],
     "ios": {
       "bundleIdentifier": "fr.maurer-developpement.hearthelp",
-      "buildNumber": "1.0.0",
+      "buildNumber": "2",
       "infoPlist": {
         "UIBackgroundModes": [
           "audio"

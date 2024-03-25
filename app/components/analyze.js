@@ -1,11 +1,21 @@
 import React, {useState, useContext} from 'react';
-import {Button, Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {AntDesign} from "@expo/vector-icons";
 import {ChocContext} from "../context/chocContext";
 import {AnalyzeContext} from "../context/analyzeContext";
+import {
+    Button,
+    ButtonText,
+    ButtonIcon,
+    ButtonSpinner,
+    ButtonGroup,
+    Center,
+    Divider, AddIcon, RemoveIcon,
+} from "@gluestack-ui/themed"
 const AnalyseBtn = () => {
     const [analyze, setAnalyze] = useContext(AnalyzeContext);
     const [modalVisible, setModalVisible] = useState(false);
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     const { choc, setChoc } = useContext(ChocContext);
 
     function addChoc() {
@@ -16,12 +26,27 @@ const AnalyseBtn = () => {
         setModalVisible(true);
         setAnalyze(analyze + 1);
     }
+
+    async function removeAnalyze() {
+        if (analyze > 0) {
+            setAnalyze(analyze - 1);
+            setDeleteModalVisible(false);
+        }
+    }
     return (
         <View style={styles.analyse}>
             <Text style={styles.button_text}>Analyses : {analyze}</Text>
-            <TouchableOpacity onPress={handleAnalyseClick}>
-                <AntDesign name="pluscircle" size={42} color="black" />
-            </TouchableOpacity>
+            <Button
+                onPress={handleAnalyseClick}
+                size="sm"
+                variant="solid"
+                action="primary"
+                isDisabled={false}
+                isFocusVisible={false}
+            >
+                <ButtonText>Add </ButtonText>
+                <ButtonIcon as={AddIcon} />
+            </Button>
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -33,8 +58,76 @@ const AnalyseBtn = () => {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>Choc délivré ?</Text>
-                        <Button title="Oui" onPress={addChoc} />
-                        <Button title="Non" onPress={() => setModalVisible(false)} />
+                        <Button
+                            onPress={addChoc}
+                            size="sm"
+                            variant="solid"
+                            action="primary"
+                            isDisabled={false}
+                            isFocusVisible={false}>
+                            <ButtonText>Oui</ButtonText>
+                        </Button>
+
+                        <Button
+                            style={styles.modal_button} // Modifiez cette ligne
+                            onPress={() => setModalVisible(false)}
+                            size="sm"
+                            variant="solid"
+                            action="primary"
+                            isDisabled={false}
+                            isFocusVisible={false}>
+                            <ButtonText>Non</ButtonText>
+                        </Button>
+
+                    </View>
+                </View>
+            </Modal>
+            {analyze > 0 && ( <>
+                <Button
+                    style={styles.button}
+                    onPress={() => setDeleteModalVisible(true)}
+                    size="xs"
+                    variant="solid"
+                    action="negative"
+                    isDisabled={false}
+                    isFocusVisible={false}
+                >
+                    <ButtonIcon as={RemoveIcon} />
+                </Button>
+            </>)}
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={deleteModalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!deleteModalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Voulez-vous supprimer 1 analyse ?</Text>
+                        <Button
+                            onPress={() => removeAnalyze()}
+                            size="sm"
+                            variant="solid"
+                            action="primary"
+                            isDisabled={false}
+                            isFocusVisible={false}>
+                            <ButtonText>Oui</ButtonText>
+                        </Button>
+
+                        <Button
+                            style={styles.modal_button} // Modifiez cette ligne
+                            onPress={() => setDeleteModalVisible(false)}
+                            size="sm"
+                            variant="solid"
+                            action="primary"
+                            isDisabled={false}
+                            isFocusVisible={false}>
+                            <ButtonText>Non</ButtonText>
+                        </Button>
+
                     </View>
                 </View>
             </Modal>
@@ -84,6 +177,12 @@ const styles = StyleSheet.create({
         margin: 12,
         borderWidth: 1,
         padding: 10,
+    },
+    modal_button: {
+        marginTop: 10, // Ajoutez cette ligne
+    },
+    button: {
+        marginTop: 10,
     },
 });
 

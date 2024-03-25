@@ -1,7 +1,17 @@
 import React, {useState, useEffect, useRef, useContext} from 'react';
-import {Button, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {AntDesign} from "@expo/vector-icons";
 import {IntubationContext} from "../context/intubationContext";
+import {
+    Button,
+    ButtonText,
+    ButtonIcon,
+    ButtonSpinner,
+    ButtonGroup,
+    Center,
+    Divider, AddIcon,
+} from "@gluestack-ui/themed"
+
 const CatheBtn = () => {
     const {intubTimes, setIntubTimes} = useContext(IntubationContext);
     function handleIntubClick() {
@@ -13,9 +23,17 @@ const CatheBtn = () => {
         <View style={styles.adrenaline}>
             <Text style={styles.button_text}>Heure d'intubation : {intubTimes}</Text>
             {intubTimes === "Non intubé" && (
-                <TouchableOpacity style={styles.list} onPress={handleIntubClick}>
-                    <AntDesign name="pluscircle" size={42} color="black" />
-                </TouchableOpacity>
+                <Button style={styles.list}
+                        onPress={handleIntubClick}
+                        size="sm"
+                        variant="solid"
+                        action="primary"
+                        isDisabled={false}
+                        isFocusVisible={false}
+                >
+                    <ButtonText>Add </ButtonText>
+                    <ButtonIcon as={AddIcon} />
+                </Button>
             )}
         </View>
     );

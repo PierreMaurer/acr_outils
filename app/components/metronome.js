@@ -4,6 +4,14 @@ import { Audio } from 'expo-av';
 import {storage} from '../services/storage';
 
 const Metronome = (params) => {
+    Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+        playsInSilentModeIOS: true,
+        shouldDuckAndroid: true,
+        playThroughEarpieceAndroid: false,
+        staysActiveInBackground: true,
+    });
+
     let type = params.params;
     const [metronome, setMetronome] = useState(null);
     useEffect(() => {
@@ -38,24 +46,29 @@ const Metronome = (params) => {
     }, []);
 
     useEffect(() => {
-        if (isPlaying) {
-            intervalId.current = setInterval(() => {
-                if (sound) {
-                    sound.replayAsync();
+        let lastTime = Date.now();
+        const playSound = async (timestamp) => {
+            if (sound) {
+                const currentTime = Date.now();
+                const deltaTime = currentTime - lastTime;
+                if (deltaTime >= interval) {
+                    await sound.replayAsync();
+                    lastTime = currentTime;
                 }
-            }, interval);
-        } else {
-            if (intervalId.current) {
-                clearInterval(intervalId.current);
+                intervalId.current = requestAnimationFrame(playSound);
             }
+        };
+
+        if (isPlaying) {
+            intervalId.current = requestAnimationFrame(playSound);
+        } else {
+            cancelAnimationFrame(intervalId.current);
         }
 
         return () => {
-            if (intervalId.current) {
-                clearInterval(intervalId.current);
-            }
+            cancelAnimationFrame(intervalId.current);
         };
-    }, [isPlaying, sound]);
+    }, [isPlaying, sound, interval]);
 
     const togglePlay = () => {
         setIsPlaying(!isPlaying);

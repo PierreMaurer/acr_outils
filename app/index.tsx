@@ -33,13 +33,11 @@ const Reanimation = ({navigation, route}) => {
                                         style={{
                                             fontSize: 20,
                                             fontWeight: 'bold',
-                                            marginBottom: 20,
+                                            marginBottom: 10,
                                         }}
                                     >Métronome</Text>
                                     <Metronome params={type}></Metronome>
                                 </View>
-                                <Divider />
-                                <LowFlow></LowFlow>
                                 <Divider />
                                 <AnalyseBtn></AnalyseBtn>
                                 <Divider />
@@ -54,6 +52,8 @@ const Reanimation = ({navigation, route}) => {
                                         <Intubation></Intubation>
                                         <Divider />
                                         <NoFlow></NoFlow>
+                                        <Divider/>
+                                        <LowFlow></LowFlow>
                                         <Divider />
                                         <Synthese></Synthese>
                                     </AmiodaroneProvider>
@@ -70,7 +70,6 @@ const Reanimation = ({navigation, route}) => {
 const styles = StyleSheet.create({
     test: {
         paddingTop: 10,
-        paddingBottom: 20,
         alignItems: 'center',
         justifyContent: 'center',
     },
